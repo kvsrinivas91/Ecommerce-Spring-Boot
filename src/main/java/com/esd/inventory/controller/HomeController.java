@@ -1,5 +1,6 @@
 package com.esd.inventory.controller;
 
+import com.esd.inventory.global.GlobalData;
 import com.esd.inventory.model.Category;
 import com.esd.inventory.model.Product;
 import com.esd.inventory.service.CategoryService;
@@ -42,6 +43,9 @@ public class HomeController {
         model.addAttribute("product", productService.getProductById(id).get());
         return "viewProduct";
     }
+
+
+
 
 
 
