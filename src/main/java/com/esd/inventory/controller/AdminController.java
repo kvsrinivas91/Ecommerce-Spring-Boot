@@ -133,8 +133,8 @@ public class AdminController {
         model.addAttribute("categories", categoryService.getAllCategory());
         model.addAttribute("productDTO", productDTO);
 
-
-        return "productshiAdd";
+// check this
+        return "productsAdd";
     }
 
 }
