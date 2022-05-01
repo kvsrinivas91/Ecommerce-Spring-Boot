@@ -5,7 +5,6 @@ import com.esd.inventory.model.User;
 import com.esd.inventory.repository.RoleRepository;
 import com.esd.inventory.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 
@@ -32,8 +31,6 @@ public class GoogleOAuth2SuccessHandler implements AuthenticationSuccessHandler 
     UserRepository userRepository;
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
-
-
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {

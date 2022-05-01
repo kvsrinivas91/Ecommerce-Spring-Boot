@@ -1,6 +1,6 @@
 package com.esd.inventory.controller;
 
-import com.esd.inventory.dto.ProductDTO;
+import com.esd.inventory.model.ProductDTO;
 import com.esd.inventory.model.Category;
 import com.esd.inventory.model.Product;
 import com.esd.inventory.service.CategoryService;
@@ -93,6 +93,8 @@ public class AdminController {
         product.setPrice(productDTO.getPrice());
         product.setWeight(productDTO.getWeight());
         product.setDescription(productDTO.getDescription());
+        product.setCount(productDTO.getCount());
+
         String imageUUID;
 
         if(!file.isEmpty()){
@@ -129,11 +131,14 @@ public class AdminController {
         productDTO.setWeight((product.getWeight()));
         productDTO.setDescription(product.getDescription());
         productDTO.setImageName(product.getImageName());
+        productDTO.setCount(product.getCount());
+
+
 
         model.addAttribute("categories", categoryService.getAllCategory());
         model.addAttribute("productDTO", productDTO);
 
-// check this
+
         return "productsAdd";
     }
 
