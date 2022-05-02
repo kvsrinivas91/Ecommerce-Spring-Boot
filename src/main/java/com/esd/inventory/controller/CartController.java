@@ -19,7 +19,7 @@ public class CartController {
 
     @GetMapping("/addToCart/{id}")
     public String addToCart(@PathVariable int id){
-        GlobalData.cart.addProduct(productService.getProductById(id).get());
+        GlobalData.cart.addProduct(productService.getProductById(id));
         return "redirect:/shop";
     }
 
@@ -47,7 +47,7 @@ public class CartController {
     @PostMapping("/orderPlaced")
     public String OrderPlaced(Model model){
         GlobalData.cart.getProducts().forEach(product -> {
-            Product currentProduct = productService.getProductById(product.getId()).get();
+            Product currentProduct = productService.getProductById(product.getId());
             currentProduct.setCount(currentProduct.getCount()-product.getCount());
             productService.updateProduct(currentProduct);
         });

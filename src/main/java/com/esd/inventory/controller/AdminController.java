@@ -23,10 +23,10 @@ public class AdminController {
     public static String uploadDir = System.getProperty("user.dir") + "/src/main/resources/static/productImages";
 
     @Autowired
-    CategoryService categoryService;
+    CategoryService categoryS;
 
     @Autowired
-    ProductService productService;
+    ProductService productS;
 
     @GetMapping("/admin")
     public String adminHome(){
@@ -35,7 +35,7 @@ public class AdminController {
 
     @GetMapping("/admin/categories")
     public String getCat(Model model){
-        model.addAttribute("categories", categoryService.getAllCategory());
+        model.addAttribute("categories", categoryS.getAllCategory());
         return "categories";
     }
 
@@ -47,22 +47,33 @@ public class AdminController {
 
     @PostMapping("/admin/categories/add")
     public String postCatAdd(@ModelAttribute("category") Category category){
-        categoryService.addCategory(category);
+
+        if(category.getId() ==  0){
+            categoryS.addCategory(category);
+        }
+        else {
+            categoryS.updateCategoryById(category);
+        }
+        int tempId = 0;
+        {
+
+        }
+
         return "redirect:/admin/categories";
     }
 
     @GetMapping("/admin/categories/delete/{id}")
     public String deleteCat(@PathVariable int id){
-        categoryService.removeCategoryById(id);
+        categoryS.removeCategoryById(id);
         return "redirect:/admin/categories";
 
     }
 
     @GetMapping("/admin/categories/update/{id}")
     public String updateCat(@PathVariable int id, Model model){
-        Optional<Category> category = categoryService.getCategoryById(id);
-        if(category.isPresent()){
-            model.addAttribute("category", category.get());
+        Optional<Category> categoryUpdate = categoryS.getCategoryById(id);
+        if(categoryUpdate.isPresent()){
+            model.addAttribute("category", categoryUpdate.get());
             return "categoriesAdd";
         } else
             return "404";
@@ -70,26 +81,26 @@ public class AdminController {
 
     // Product Section
     @GetMapping("/admin/products")
-    public String products(Model model){
-        model.addAttribute("products", productService.getAllProduct());
+    public String productsGet(Model model){
+        model.addAttribute("products", productS.getAllProduct());
         return "products";
     }
 
     @GetMapping("/admin/products/add")
-    public String productAddGet(Model model){
+    public String productAddandGet(Model model){
         model.addAttribute("productDTO", new ProductDTO());
-        model.addAttribute("categories", categoryService.getAllCategory());
+        model.addAttribute("categories", categoryS.getAllCategory());
         return "productsAdd";
     }
 
     @PostMapping("/admin/products/add")
-    public String productAddPost(@ModelAttribute("productDTO")ProductDTO productDTO, @RequestParam("productImage") MultipartFile file, @RequestParam("imgName")String imgName) throws IOException{
+    public String productAddandPost(@ModelAttribute("productDTO")ProductDTO productDTO, @RequestParam("productImage") MultipartFile file, @RequestParam("imgName")String imgName) throws IOException{
 
         Product product = new Product();
 
         product.setId(productDTO.getId());
         product.setName(productDTO.getName());
-        product.setCategory(categoryService.getCategoryById(productDTO.getCategoryId()).get());
+        product.setCategory(categoryS.getCategoryById(productDTO.getCategoryId()).get());
         product.setPrice(productDTO.getPrice());
         product.setWeight(productDTO.getWeight());
         product.setDescription(productDTO.getDescription());
@@ -106,23 +117,28 @@ public class AdminController {
         }
 
         product.setImageName(imageUUID);
-        productService.addProduct(product);
 
+        if(productDTO.getId()==null){
+            productS.addProduct(product);
+        }
+        else {
+            productS.updateProduct(product);
+        }
 
         return "redirect:/admin/products";
     }
 
 
     @GetMapping("/admin/product/delete/{id}")
-    public String deleteProduct(@PathVariable long id){
-        productService.removeProductById(id);
+    public String deleteProductItem(@PathVariable long id){
+        productS.removeProductById(id);
         return "redirect:/admin/products";
 
     }
 
     @GetMapping("/admin/product/update/{id}")
-    public String updateProductGet(@PathVariable long id, Model model){
-        Product product = productService.getProductById(id).get();
+    public String updateProductandGet(@PathVariable long id, Model model){
+        Product product = productS.getProductById(id);
         ProductDTO productDTO = new ProductDTO();
         productDTO.setId(product.getId());
         productDTO.setName(product.getName());
@@ -135,7 +151,7 @@ public class AdminController {
 
 
 
-        model.addAttribute("categories", categoryService.getAllCategory());
+        model.addAttribute("categories", categoryS.getAllCategory());
         model.addAttribute("productDTO", productDTO);
 
 

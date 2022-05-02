@@ -1,41 +1,44 @@
 package com.esd.inventory.service;
 
-import com.esd.inventory.model.Category;
+import com.esd.inventory.DAO.ProductDAO;
+
 import com.esd.inventory.model.Product;
-import com.esd.inventory.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class ProductService {
 
+
+
     @Autowired
-    ProductRepository productRepository;
+    ProductDAO productDAO;
+
     public List<Product> getAllProduct(){
-        return productRepository.findAll();
+        return productDAO.findAll();
     }
 
     public void addProduct(Product product){
-        productRepository.save(product);
+        productDAO.save(product);
     }
 
     public void updateProduct(Product product){
-        productRepository.save(product);
+        productDAO.update(product);
     }
 
     public void removeProductById(long id){
-        productRepository.deleteById(id);
+        productDAO.deleteById(id);
     }
 
-    public Optional<Product> getProductById(long id){
-        return  productRepository.findById(id);
+    public Product getProductById(long id){
+        return  productDAO.findById(id);
     }
 
     public List<Product> getAllProductsByCategoryId(int id){
-        return productRepository.findAllByCategory_Id(id);
+        return productDAO.findAllByCategory_Id(id);
     }
 
 }

@@ -19,6 +19,7 @@ public class Product {
     private double price;
     private double weight;
     private String description;
+    @Column(name = "image_name")
     private String imageName;
     @Column(name = "count")
     private int count;

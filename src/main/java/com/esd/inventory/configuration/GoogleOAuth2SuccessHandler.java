@@ -1,9 +1,9 @@
 package com.esd.inventory.configuration;
 
+import com.esd.inventory.DAO.RoleDAO;
+import com.esd.inventory.DAO.UserDAO;
 import com.esd.inventory.model.Role;
 import com.esd.inventory.model.User;
-import com.esd.inventory.repository.RoleRepository;
-import com.esd.inventory.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -24,11 +24,13 @@ import java.util.List;
 @Component
 public class GoogleOAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
-    @Autowired
-    RoleRepository roleRepository;
+
 
     @Autowired
-    UserRepository userRepository;
+    RoleDAO roleDAO;
+
+    @Autowired
+    UserDAO userDAO;
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
@@ -36,7 +38,7 @@ public class GoogleOAuth2SuccessHandler implements AuthenticationSuccessHandler 
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
         OAuth2AuthenticationToken token = (OAuth2AuthenticationToken) authentication;
         String email = token.getPrincipal().getAttributes().get("email").toString();
-        if(userRepository.findUserByEmail(email).isPresent()){
+        if(userDAO.findUserByEmail(email)!= null){
 
         } else {
             User user = new User();
@@ -44,9 +46,9 @@ public class GoogleOAuth2SuccessHandler implements AuthenticationSuccessHandler 
             user.setLastName(token.getPrincipal().getAttributes().get("family_name").toString());
             user.setEmail(email);
             List<Role> roles = new ArrayList<>();
-            roles.add(roleRepository.findById(2).get());
+            roles.add(roleDAO.findById(2));
             user.setRoles(roles);
-            userRepository.save(user);
+            userDAO.save(user);
         }
         redirectStrategy.sendRedirect(request, response, "/");
 

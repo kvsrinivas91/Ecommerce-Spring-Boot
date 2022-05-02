@@ -1,15 +1,13 @@
 package com.esd.inventory.controller;
 
+import com.esd.inventory.DAO.RoleDAO;
+import com.esd.inventory.DAO.UserDAO;
 import com.esd.inventory.global.GlobalData;
 import com.esd.inventory.model.Role;
 import com.esd.inventory.model.User;
-import com.esd.inventory.repository.RoleRepository;
-import com.esd.inventory.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.instrument.classloading.glassfish.GlassFishLoadTimeWeaver;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,10 +24,10 @@ public class LoginContoller {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    UserRepository userRepository;
+    UserDAO userDAO;
 
     @Autowired
-    RoleRepository roleRepository;
+    RoleDAO roleDAO;
 
     @GetMapping("/login")
     public String login(){
@@ -48,9 +46,9 @@ public class LoginContoller {
         String password = user.getPassword();
         user.setPassword((bCryptPasswordEncoder.encode(password)));
         List<Role> roles = new ArrayList<>();
-        roles.add(roleRepository.findById(2).get());
+        roles.add(roleDAO.findById(2));
         user.setRoles(roles);
-        userRepository.save(user);
+        userDAO.save(user);
         request.login(user.getEmail(), password);
         return "redirect:/";
      }

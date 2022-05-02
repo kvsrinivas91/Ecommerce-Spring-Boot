@@ -1,33 +1,42 @@
 package com.esd.inventory.service;
 
+import com.esd.inventory.DAO.CategoryDAO;
 import com.esd.inventory.model.Category;
-import com.esd.inventory.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 import java.util.Optional;
 
+import static com.esd.inventory.DAO.DAO.getSession;
+
 @Service
 public class CategoryService {
 
+
+
     @Autowired
-    CategoryRepository categoryRepository;
+    CategoryDAO categoryDAO;
+
+
 
     public List<Category> getAllCategory(){
-        return categoryRepository.findAll();
+        return categoryDAO.getAllCategory();
     }
 
     public void addCategory(Category category){
-        categoryRepository.save(category);
+        categoryDAO.save(category);
     }
 
     public void removeCategoryById(int id){
-        categoryRepository.deleteById(id);
+        categoryDAO.deleteById(id);
     }
 
+    public void updateCategoryById(Category category) {categoryDAO.update(category);}
+
     public Optional<Category> getCategoryById(int id){
-        return categoryRepository.findById(id);
+        return Optional.ofNullable(categoryDAO.findById(id));
     }
 
 }

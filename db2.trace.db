@@ -1,0 +1,15 @@
+2022-05-01 14:39:45 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CATEGORY" not found; SQL statement:
+select category0_.category_id as category1_0_, category0_.name as name2_0_ from CATEGORY category0_ [42102-200]
+2022-05-01 14:40:06 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CATEGORY" not found; SQL statement:
+select category0_.category_id as category1_0_, category0_.name as name2_0_ from CATEGORY category0_ [42102-200]
+2022-05-01 14:40:19 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CATEGORY" not found; SQL statement:
+select category0_.category_id as category1_0_, category0_.name as name2_0_ from CATEGORY category0_ [42102-200]
+2022-05-01 14:41:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CATEGORY" not found; SQL statement:
+select category0_.category_id as category1_0_, category0_.name as name2_0_ from CATEGORY category0_ [42102-200]
+2022-05-01 14:41:31 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CATEGORY" not found; SQL statement:
+select category0_.category_id as category1_0_, category0_.name as name2_0_ from CATEGORY category0_ [42102-200]
